@@ -136,4 +136,4 @@ Mentor: Shylaja S S, Department of CSE, PES University
 
 ## Disclaimer
 
-FocusLoop is a research prototype. It is not a diagnostic tool and is not a substitute for clinical assessment or treatment of ADHD.
+FocusLoop is a research prototype. It is not a diagnostic tool and is not a substitute for clinical assessment or treatment of ADHD
