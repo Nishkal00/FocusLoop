@@ -43,7 +43,6 @@ The full design, including the scoring formulas, is in [`docs/project_overview.m
 
 Clips are 512x288, 17 frames at 16 fps (about 1 second, looped in the UI). A few generated examples are in [`docs/sample-clips/`](docs/sample-clips/).
 
-<!-- Tip: drag an MP4 or GIF into this README on GitHub to embed it inline. -->
 
 ## Benchmarks (RTX 4050 Laptop, 6 GB)
 
@@ -67,8 +66,6 @@ We stopped working on FocusLoop after the internship. Being upfront about why:
 - **The assessment is unvalidated.** A 17-person pilot (not screened for ADHD) behaved sensibly; task initiation was the lowest and most variable dimension (M = 32.8, SD = 23.3). But the thresholds are engineering defaults, not values validated against clinical outcomes.
 
 What did work: the end-to-end pipeline on consumer hardware, the VRAM engineering that made a ~5B-parameter pipeline fit in 6 GB, schema-constrained single-call task decomposition, and a transparent rule-based personalization layer.
-
-<!-- TODO (optional): add anything specific you learned or would do differently. -->
 
 ## Running it locally
 
