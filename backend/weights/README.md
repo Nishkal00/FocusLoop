@@ -3,7 +3,7 @@
 The fine-tuned adapter `wan_lora.safetensors` (~334 MB) is too large for a normal
 git repo, so it is hosted separately:
 
-**Download:** <!-- TODO: paste the Hugging Face / GitHub Release link here -->
+**Download:** [wan_lora.safetensors (v1.0 release)](https://github.com/Nishkal00/FocusLoop/releases/download/v1.0/wan_lora.safetensors)
 
 Put the file in this folder as `backend/weights/wan_lora.safetensors`.
 If it is missing, the backend just runs the base Wan 2.1 model.
