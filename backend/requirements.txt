@@ -1,0 +1,31 @@
+# FocusLoop backend
+# Versions are the ones the project was last run with (Windows, CUDA 12.4, RTX 4050 6 GB).
+# Install the CUDA build of PyTorch first, e.g.:
+#   pip install torch==2.6.0 --index-url https://download.pytorch.org/whl/cu124
+
+# API server
+fastapi==0.138.0
+uvicorn==0.49.0
+pydantic>=2
+python-dotenv==1.2.2
+requests==2.34.2
+
+# Model pipeline
+torch==2.6.0
+diffusers==0.38.0
+transformers==5.12.1
+accelerate==1.14.0
+peft==0.19.1
+bitsandbytes==0.49.2
+gguf==0.19.0
+safetensors==0.8.0
+sentencepiece==0.2.1
+huggingface_hub==1.20.1
+numpy==2.5.0
+
+# Video export (diffusers.utils.export_to_video)
+imageio==2.37.3
+imageio-ffmpeg
+
+# Used by backend/experiments only
+psutil

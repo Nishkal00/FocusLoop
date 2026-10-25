@@ -1,0 +1,1988 @@
+/* ==========================================================
+   ADHD Adaptive Task Planner - Design System
+   ========================================================== */
+
+/* ── 1. Custom Properties ─────────────────────────────────── */
+:root {
+    /* Backgrounds - flat, neutral charcoal. No radial glows. */
+    --bg-base: #1a1c22;
+    --bg-surface: #202329;
+    --bg-elevated: #262a31;
+    --bg-card: #202329;
+    --bg-card-hover: #262a31;
+    --bg-input: #17191e;
+    --bg-overlay: rgba(12, 13, 16, 0.85);
+
+    /* Accent - single desaturated blue. No secondary gradient partner. */
+    --accent: #6e93d6;
+    --accent-light: #8ba9de;
+    --accent-dim: rgba(110, 147, 214, 0.12);
+    --accent-glow: rgba(110, 147, 214, 0.12);
+
+    /* Amber reserved for semantic use only (timers, caution) - not decoration */
+    --amber: #d6a35f;
+    --amber-light: #e2b87e;
+    --amber-dim: rgba(214, 163, 95, 0.12);
+
+    /* Semantic */
+    --success: #6bb583;
+    --success-dim: rgba(107, 181, 131, 0.12);
+    --warning: #d6a35f;
+    --warning-dim: rgba(214, 163, 95, 0.12);
+    --danger: #cf6b6b;
+    --danger-dim: rgba(207, 107, 107, 0.12);
+
+    /* Text - contrast raised for ADHD/low-vision readability */
+    --text-primary: #edeef0;
+    --text-secondary: #a5a9b2;
+    --text-muted: #75797f;
+    --text-on-accent: #16181c;
+
+    /* Borders - hairlines, no color glow */
+    --border: rgba(255, 255, 255, 0.08);
+    --border-accent: rgba(255, 255, 255, 0.14);
+    --border-focus: var(--accent);
+
+    /* Shadows - subtle elevation only, never a colored glow */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.24);
+    --shadow-md: 0 2px 8px rgba(0, 0, 0, 0.28);
+    --shadow-lg: 0 4px 16px rgba(0, 0, 0, 0.32);
+    --shadow-glow: var(--shadow-md);
+
+    /* Radii - modest, consistent, not bubble-shaped */
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+
+    /* Spacing */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 36px;
+    --space-2xl: 56px;
+
+    /* Transitions - calmer, less springy so motion doesn't compete for attention */
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-spring: cubic-bezier(0.3, 1, 0.6, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 280ms;
+    --duration-slow: 420ms;
+
+    /* Typography - one disciplined family, weight/size carries the hierarchy */
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-heading: var(--font-body);
+    --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* ── 2. Reset & Base ──────────────────────────────────────── */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-base);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-light); }
+
+img { max-width: 100%; display: block; }
+
+::selection {
+    background: var(--accent-dim);
+    color: var(--text-primary);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
+
+/* ── 3. Typography ────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+}
+
+h1 { font-size: 2.5rem; font-weight: 700; }
+h2 { font-size: 1.75rem; }
+h3 { font-size: 1.35rem; }
+h4 { font-size: 1.1rem; }
+
+p { color: var(--text-secondary); line-height: 1.7; }
+
+.text-gradient {
+    color: var(--accent-light);
+    font-weight: 700;
+}
+
+.text-sm { font-size: 0.875rem; }
+.text-xs { font-size: 0.75rem; }
+.text-muted { color: var(--text-muted); }
+.text-accent { color: var(--accent); }
+.text-amber { color: var(--amber); }
+.text-success { color: var(--success); }
+.text-danger { color: var(--danger); }
+.text-center { text-align: center; }
+
+/* ── 4. Layout ────────────────────────────────────────────── */
+#app {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#app-header {
+    padding: var(--space-lg) 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: linear-gradient(to bottom, var(--bg-base) 60%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+}
+
+.logo {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    white-space: nowrap;
+}
+
+.logo-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    background: var(--accent);
+    color: var(--text-on-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+#main-content {
+    flex: 1;
+    padding-bottom: var(--space-2xl);
+}
+
+/* ── 5. Progress Fill ─────────────────────────────────────────
+   A plain fill bar rather than numbered dots/counters - this
+   reads as "how far along" rather than "which question number
+   you're being scored on", which matters for a check-in that's
+   trying not to feel like a quiz. */
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin: var(--space-sm) 0 var(--space-lg);
+}
+
+.progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: var(--radius-full);
+    transition: width var(--duration-normal) var(--ease-out);
+}
+
+/* ── 6. Landing Page ──────────────────────────────────────── */
+.landing {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: var(--space-2xl);
+    animation: fadeIn var(--duration-slow) var(--ease-out);
+}
+
+.landing-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--radius-lg);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    margin-bottom: var(--space-lg);
+}
+
+.landing h1 {
+    margin-bottom: var(--space-md);
+    max-width: 600px;
+}
+
+.landing > p {
+    max-width: 520px;
+    margin-bottom: var(--space-xl);
+    font-size: 1.05rem;
+}
+
+.landing-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-md);
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: var(--space-xl);
+}
+
+.feature-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.feature-chip span:first-child {
+    font-size: 1.1rem;
+}
+
+.landing-meta {
+    display: flex;
+    gap: var(--space-lg);
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: var(--space-xl);
+}
+
+.landing-meta span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+/* ── 7. Assessment Shared ─────────────────────────────────── */
+.assessment-container {
+    animation: slideUp var(--duration-slow) var(--ease-out);
+}
+
+.assessment-header {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.assessment-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-md);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: var(--space-md);
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+}
+
+.assessment-header h2 {
+    margin-bottom: var(--space-sm);
+}
+
+.assessment-header p {
+    max-width: 480px;
+    margin: 0 auto;
+    font-size: 0.95rem;
+}
+
+.assessment-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.assessment-card + .assessment-card {
+    margin-top: var(--space-md);
+}
+
+.round-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 3px 12px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    margin-bottom: var(--space-md);
+}
+
+.assessment-instructions {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+.assessment-instructions strong {
+    color: var(--text-primary);
+}
+
+.assessment-footer {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-lg);
+}
+
+/* ── 8. Buttons ───────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius-full);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+}
+
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+    background: var(--accent);
+    color: var(--text-on-accent);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-primary:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent);
+}
+
+.btn-accent {
+    background: var(--amber);
+    color: #1a1000;
+}
+
+.btn-accent:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-secondary);
+    padding: 8px 16px;
+}
+
+.btn-ghost:hover { color: var(--text-primary); background: var(--bg-card); }
+
+.btn-lg {
+    padding: 16px 40px;
+    font-size: 1.05rem;
+    border-radius: var(--radius-full);
+}
+
+.btn-sm {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: var(--radius-sm);
+}
+
+.btn-icon.active {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ── 9. Form Elements ─────────────────────────────────────── */
+.input-field,
+.textarea-field {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    transition: border-color var(--duration-fast) var(--ease-out),
+                box-shadow var(--duration-fast) var(--ease-out);
+    outline: none;
+}
+
+.input-field:focus,
+.textarea-field:focus {
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px var(--accent-dim);
+}
+
+.input-field::placeholder,
+.textarea-field::placeholder {
+    color: var(--text-muted);
+}
+
+.textarea-field {
+    min-height: 120px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.textarea-field.tall {
+    min-height: 200px;
+}
+
+.input-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.input-hint {
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-top: var(--space-xs);
+}
+
+/* ── 10. Working Memory Assessment ────────────────────────── */
+.wm-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    gap: var(--space-md);
+}
+
+.wm-word {
+    font-family: var(--font-heading);
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    animation: wordPop 0.4s var(--ease-spring);
+    text-align: center;
+}
+
+.wm-countdown {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--amber);
+    animation: pulse 1.8s ease-in-out infinite;
+}
+
+.wm-distraction {
+    text-align: center;
+    padding: var(--space-lg);
+}
+
+.wm-distraction-number {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: var(--space-sm);
+}
+
+.wm-recall-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.wm-tag {
+    padding: 4px 12px;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.wm-tag .remove {
+    cursor: pointer;
+    opacity: 0.6;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.wm-tag .remove:hover { opacity: 1; }
+
+/* Working Memory - Selection Grid */
+.wm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+}
+
+.wm-grid-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-input);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    user-select: none;
+    min-height: 52px;
+}
+
+.wm-grid-item:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    transform: translateY(-1px);
+}
+
+.wm-grid-item.selected {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent-light);
+    box-shadow: none;
+    transform: translateY(-1px);
+}
+
+.wm-round-result {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md);
+    background: var(--bg-input);
+    border-radius: var(--radius-md);
+    margin-top: var(--space-sm);
+}
+
+.wm-round-result .fraction {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent);
+}
+
+/* ── 11. Attention Assessment ─────────────────────────────── */
+.att-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 280px;
+}
+
+.att-char {
+    font-family: var(--font-heading);
+    font-size: 7rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    animation: charFlash 0.25s var(--ease-out);
+    user-select: none;
+}
+
+.att-char.target {
+    color: var(--accent);
+}
+
+.att-response-btn {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid transparent;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: var(--space-xl);
+    transition: all var(--duration-fast) var(--ease-out);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.att-response-btn:hover {
+    transform: scale(1.05);
+    box-shadow: var(--shadow-lg);
+}
+
+.att-response-btn:active {
+    transform: scale(0.95);
+}
+
+.att-response-btn.flash-hit {
+    background: var(--success);
+    box-shadow: var(--shadow-md);
+}
+
+.att-response-btn.flash-miss {
+    background: var(--danger);
+    box-shadow: var(--shadow-md);
+}
+
+.att-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+}
+
+.att-stat {
+    text-align: center;
+    padding: var(--space-md);
+    background: var(--bg-input);
+    border-radius: var(--radius-md);
+}
+
+.att-stat .value {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.att-stat .label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+.att-hint {
+    margin-top: var(--space-lg);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--accent-dim);
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    color: var(--accent-light);
+    text-align: center;
+}
+
+/* ── 12. Task Initiation Assessment ───────────────────────── */
+.ti-scenario {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.ti-scenario-label {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: var(--space-sm);
+}
+
+.ti-scenario-text {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: var(--accent);
+    padding: var(--space-lg);
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-md);
+}
+
+.ti-prompt {
+    font-size: 1.05rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+/* Task Initiation - Option Buttons */
+.ti-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.ti-option-btn {
+    width: 100%;
+    text-align: left;
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-input);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.55;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.ti-option-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-out);
+}
+
+.ti-option-btn:hover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    transform: translateX(3px);
+}
+
+.ti-option-btn:hover::before {
+    opacity: 1;
+}
+
+.ti-option-btn:active {
+    transform: scale(0.99) translateX(2px);
+}
+
+/* ── 13. Planning Assessment ──────────────────────────────── */
+.plan-task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.plan-task-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: grab;
+    transition: all var(--duration-fast) var(--ease-out);
+    user-select: none;
+}
+
+.plan-task-item:hover {
+    border-color: var(--accent);
+    background: var(--bg-card-hover);
+}
+
+.plan-task-item.dragging {
+    opacity: 0.5;
+    border-color: var(--accent);
+    box-shadow: var(--shadow-glow);
+}
+
+.plan-task-item.drag-over {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.plan-drag-handle {
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: grab;
+    flex-shrink: 0;
+}
+
+.plan-task-number {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent-light);
+    flex-shrink: 0;
+}
+
+.plan-task-text {
+    flex: 1;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+}
+
+.plan-move-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.plan-move-btn {
+    width: 24px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text-muted);
+    font-size: 0.65rem;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.plan-move-btn:hover {
+    background: var(--accent-dim);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ── 14. Instruction Following ────────────────────────────── */
+.if-workspace {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--space-md);
+}
+
+.if-canvas-wrap {
+    background: #1a1e32;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+}
+
+.if-canvas {
+    display: block;
+    cursor: crosshair;
+    width: 100%;
+    touch-action: none;
+}
+
+.if-toolbar {
+    display: flex;
+    gap: var(--space-xs);
+    padding: var(--space-sm);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border);
+    flex-wrap: wrap;
+}
+
+.if-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.if-instructions-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.if-instruction-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.if-instruction-item:hover {
+    border-color: var(--accent);
+}
+
+.if-instruction-item.completed {
+    border-color: var(--success);
+    background: var(--success-dim);
+    color: var(--success);
+}
+
+.if-instruction-item .step-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    transition: all var(--duration-fast);
+}
+
+.if-instruction-item.completed .step-num {
+    background: var(--success);
+    border-color: var(--success);
+    color: var(--bg-base);
+}
+
+.if-color-palette {
+    display: flex;
+    gap: var(--space-xs);
+    flex-wrap: wrap;
+}
+
+.if-color-swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--duration-fast);
+}
+
+.if-color-swatch:hover { transform: scale(1.15); }
+.if-color-swatch.active { border-color: var(--text-primary); box-shadow: 0 0 0 2px var(--bg-elevated); }
+
+/* ── 15. Granularity Assessment ───────────────────────────── */
+.gran-task-card {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+}
+
+.gran-task-name {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.gran-task-prompt {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.gran-step-counter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: var(--space-sm);
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-input);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.gran-step-counter .count {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+/* Granularity Option Preview Cards */
+.gran-option-preview {
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md) var(--space-lg);
+    transition: border-color var(--duration-fast);
+}
+
+.gran-option-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--accent-light);
+    margin-bottom: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--border-accent);
+}
+
+/* Radio buttons for granularity questions */
+.gran-questions label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    transition: color var(--duration-fast);
+}
+
+.gran-questions label:hover {
+    color: var(--text-primary);
+}
+
+.gran-questions input[type="radio"] {
+    accent-color: var(--accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.gran-questions h4 {
+    color: var(--text-secondary);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+}
+
+.gran-questions .question-block {
+    background: rgba(255,255,255,0.02);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    margin-bottom: var(--space-sm);
+}
+
+.gran-questions > div[style] {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* ── 16. Cognitive Load Assessment ────────────────────────── */
+.cl-level-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    font-size: 0.78rem;
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+}
+
+.cl-level-badge.easy {
+    background: var(--success-dim);
+    color: var(--success);
+    border: 1px solid var(--success-dim);
+}
+
+.cl-level-badge.medium {
+    background: var(--warning-dim);
+    color: var(--warning);
+    border: 1px solid var(--warning-dim);
+}
+
+.cl-level-badge.hard {
+    background: var(--danger-dim);
+    color: var(--danger);
+    border: 1px solid var(--danger-dim);
+}
+
+.cl-task-text {
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.cl-timer {
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: var(--space-md);
+}
+
+.cl-timer span {
+    font-weight: 600;
+    color: var(--amber);
+    font-family: var(--font-mono);
+}
+
+/* ── 17. Profile / Results ────────────────────────────────── */
+.profile-container {
+    animation: fadeIn var(--duration-slow) var(--ease-out);
+}
+
+.profile-hero {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    padding-top: var(--space-lg);
+}
+
+.profile-hero h1 {
+    margin-bottom: var(--space-sm);
+}
+
+.profile-hero p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+.radar-chart-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: var(--space-xl);
+    position: relative;
+}
+
+.radar-chart-container::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.radar-chart-container canvas {
+    max-width: 420px;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+.score-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+    max-width: 860px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.score-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    transition: all var(--duration-fast) var(--ease-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.score-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.score-card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+}
+
+.score-card-icon {
+    font-size: 1.3rem;
+}
+
+.score-card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.score-card-value {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: var(--space-sm);
+}
+
+.score-bar-track {
+    height: 6px;
+    background: var(--bg-input);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-bottom: var(--space-sm);
+}
+
+.score-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    transition: width 1.2s var(--ease-out);
+    width: 0;
+}
+
+.score-bar-fill.low { background: var(--danger); }
+.score-bar-fill.medium { background: var(--amber); }
+.score-bar-fill.high { background: var(--success); }
+
+.score-card-desc {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+}
+
+.form-copy-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-lg);
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-lg) var(--space-xl);
+    margin: 0 auto var(--space-xl);
+    max-width: 800px;
+    text-align: left;
+    flex-wrap: wrap;
+}
+
+.form-copy-banner strong {
+    color: var(--text-primary);
+    font-size: 1rem;
+}
+
+.form-copy-banner #copy-summary-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+    .form-copy-banner {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+}
+
+.profile-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-lg);
+    flex-wrap: wrap;
+}
+
+.profile-json {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-lg);
+    margin-top: var(--space-xl);
+}
+
+.profile-json pre {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent-light);
+    overflow-x: auto;
+    line-height: 1.8;
+}
+
+.profile-json-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-md);
+}
+
+.profile-json-header h4 {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* ── 18. Utility Classes ──────────────────────────────────── */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.gap-sm { gap: var(--space-sm); }
+.gap-md { gap: var(--space-md); }
+.gap-lg { gap: var(--space-lg); }
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.w-full { width: 100%; }
+.hidden { display: none !important; }
+
+/* ── 19. Animations & Keyframes ───────────────────────────── */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes wordPop {
+    0% { opacity: 0; transform: scale(0.7); }
+    60% { transform: scale(1.08); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes charFlash {
+    0% { opacity: 0; transform: scale(0.5); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes countUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+@keyframes scoreReveal {
+    0% { width: 0; }
+}
+
+.anim-fade-in { animation: fadeIn var(--duration-normal) var(--ease-out); }
+.anim-slide-up { animation: slideUp var(--duration-normal) var(--ease-out); }
+.anim-slide-down { animation: slideDown var(--duration-normal) var(--ease-out); }
+
+/* ── 20. Transition Screen ────────────────────────────────── */
+.transition-screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    text-align: center;
+    animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.transition-screen .score-reveal {
+    font-family: var(--font-heading);
+    font-size: 4rem;
+    font-weight: 700;
+    animation: countUp 0.6s var(--ease-spring);
+}
+
+.transition-screen p {
+    margin-top: var(--space-md);
+    max-width: 400px;
+}
+
+/* ── 21. Responsive ───────────────────────────────────────── */
+@media (max-width: 768px) {
+    :root {
+        --space-lg: 20px;
+        --space-xl: 28px;
+        --space-2xl: 40px;
+    }
+
+    h1 { font-size: 1.8rem; }
+    h2 { font-size: 1.4rem; }
+
+    #app { padding: 0 var(--space-md); }
+
+    .if-workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .att-response-btn {
+        width: 100px;
+        height: 100px;
+        font-size: 1.2rem;
+    }
+
+    .att-char { font-size: 5rem; }
+
+    .landing-features {
+        grid-template-columns: 1fr;
+    }
+
+    .score-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .att-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .classification-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .wm-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+
+    .ti-option-btn {
+        font-size: 0.88rem;
+        padding: var(--space-sm) var(--space-md);
+    }
+
+    .gran-option-preview {
+        padding: var(--space-sm) var(--space-md);
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.5rem; }
+    .wm-word { font-size: 2rem; }
+    .att-char { font-size: 4rem; }
+    .assessment-card { padding: var(--space-lg); }
+}
+
+/* ==========================================================
+   Adaptive Task Planner Components
+   ========================================================== */
+.planner-section {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--border);
+    text-align: left;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.planner-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    margin-top: var(--space-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.template-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0;
+}
+
+.template-chip {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.template-chip:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: var(--accent-dim);
+}
+
+.template-chip.active {
+    border-color: var(--accent);
+    color: var(--text-primary);
+    background: var(--accent-dim);
+    box-shadow: none;
+}
+
+.support-banner {
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-lg);
+    font-size: 0.9rem;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.support-banner.attention {
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    color: var(--text-primary);
+}
+
+.support-banner.initiation {
+    background: var(--amber-dim);
+    border: 1px solid var(--amber-dim);
+    color: var(--text-primary);
+}
+
+.support-banner.planning {
+    background: var(--danger-dim);
+    border: 1px solid var(--danger-dim);
+    color: var(--text-primary);
+}
+
+.step-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.step-card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-md);
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.step-card.completed {
+    opacity: 0.5;
+    border-color: transparent;
+}
+
+.step-card.highlight {
+    border-color: var(--amber);
+    box-shadow: none;
+}
+
+.step-checkbox {
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent);
+}
+
+.step-content {
+    flex: 1;
+}
+
+.step-title {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.step-card.completed .step-title {
+    text-decoration: line-through;
+    color: var(--text-secondary);
+}
+
+.step-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.phase-header {
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin: var(--space-md) 0 var(--space-xs);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 4px;
+}
+
+.wm-focus-mode {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-lg);
+    padding: var(--space-xl);
+    text-align: center;
+    box-shadow: var(--shadow-glow);
+    margin-bottom: var(--space-lg);
+}
+
+.wm-focus-text {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--space-lg) 0;
+}
+
+/* ==========================================================
+   ADHD-Focused Accessibility & Calm-UI Additions
+   ========================================================== */
+
+/* Visible keyboard focus everywhere - many ADHD users navigate
+   by keyboard/switch and lose their place without a strong cue */
+a:focus-visible,
+button:focus-visible,
+.btn:focus-visible,
+.wm-grid-item:focus-visible,
+.step-checkbox:focus-visible,
+.feature-chip:focus-visible,
+.template-chip:focus-visible,
+.att-response-btn:focus-visible,
+.input-field:focus-visible,
+.textarea-field:focus-visible,
+[tabindex]:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* Respect OS-level "reduce motion" - remove ambient/looping
+   motion that can pull focus, keep only functional transitions */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    .landing-icon { animation: none; }
+    .wm-countdown { animation: none; }
+}
+
+/* Reassurance banner - sets expectations up front so there is
+   no ambiguity or hidden "gotcha" about time pressure or scoring */
+.calm-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    background: var(--accent-dim);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-md);
+    padding: var(--space-md);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    max-width: 560px;
+    margin: 0 auto var(--space-lg);
+    text-align: left;
+    line-height: 1.6;
+}
+
+.calm-banner strong { color: var(--text-primary); }
+
+/* Pause overlay - a single, judgment-free exit hatch so a person
+   never feels trapped mid-assessment if they need a moment */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.back-btn-round {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+}
+
+.back-btn-round:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+    background: var(--bg-card);
+}
+
+.pause-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    border-radius: var(--radius-full);
+    padding: 6px 14px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--ease-out);
+    white-space: nowrap;
+}
+
+.pause-btn:hover {
+    color: var(--text-primary);
+    border-color: var(--accent);
+    background: var(--bg-card);
+}
+
+.pause-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(6, 8, 18, 0.92);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-lg);
+    animation: fadeIn var(--duration-normal) var(--ease-out);
+}
+
+.pause-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-accent);
+    border-radius: var(--radius-xl);
+    padding: var(--space-2xl) var(--space-xl);
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+}
+
+.pause-card .pause-icon {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-md);
+}
+
+.pause-card h3 { margin-bottom: var(--space-sm); }
+
+.pause-card p {
+    margin-bottom: var(--space-xl);
+    font-size: 0.95rem;
+}
+
+/* Single-focus rule of thumb: only one primary (filled) button
+   should ever compete for attention in a given view */
+.assessment-footer .btn-secondary,
+.assessment-footer .btn-ghost {
+    margin-right: var(--space-sm);
+}
+
+/* Progressive disclosure - keep dense/technical content (raw scores,
+   JSON) tucked away by default so the results page isn't a wall of
+   text; a clear chevron shows there's more without forcing it */
+details summary::-webkit-details-marker { display: none; }
+details summary {
+    position: relative;
+    padding-left: 22px;
+}
+details summary::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    transition: transform var(--duration-fast) var(--ease-out);
+    display: inline-block;
+}
+details[open] summary::before {
+    transform: rotate(90deg);
+}
+details summary:focus-visible {
+    outline: 3px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+}
+
+/* ── Custom Stepper & Split Layout Additions ──────────────── */
+
+.stepper-container {
+    padding: var(--space-md) var(--space-lg);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border);
+    width: 100%;
+}
+
+.stepper-circles {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 600px;
+    margin: 0 auto;
+    gap: var(--space-xs);
+}
+
+.step-circle-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-xs);
+    position: relative;
+    z-index: 10;
+}
+
+.step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-full);
+    background: var(--bg-elevated);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.step-circle-label {
+    font-size: 0.7rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.step-line-divider {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    margin-top: -38px; /* align with centers of circles */
+    z-index: 1;
+    transition: all var(--duration-normal) var(--ease-out);
+}
+
+.step-circle-wrapper.active .step-circle {
+    background: var(--bg-base);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: 0 0 12px rgba(110, 147, 214, 0.2);
+}
+
+.step-circle-wrapper.active .step-circle-label {
+    color: var(--accent);
+    font-weight: 600;
+}
+
+.step-circle-wrapper.completed .step-circle {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--bg-base);
+}
+
+.step-circle-wrapper.completed .step-circle-label {
+    color: var(--text-secondary);
+}
+
+.step-circle-wrapper.completed + .step-line-divider {
+    background: var(--accent);
+}
+
+/* Scrollable Progress Items */
+.scrollable-progress-list::-webkit-scrollbar {
+    height: 6px;
+}
+.scrollable-progress-list::-webkit-scrollbar-thumb {
+    background: var(--border-accent);
+    border-radius: var(--radius-full);
+}
+.scrollable-progress-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.progress-list-item.completed {
+    border-color: var(--success) !important;
+}
+
+.progress-list-item.active {
+    box-shadow: 0 4px 12px rgba(110, 147, 214, 0.08);
+}
+

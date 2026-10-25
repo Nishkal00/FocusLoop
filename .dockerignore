@@ -1,0 +1,11 @@
+.venv/
+venv/
+node_modules/
+__pycache__/
+*.pyc
+.git/
+.huggingface_cache/
+backend/load_debug.log
+downloads/
+*.zip
+

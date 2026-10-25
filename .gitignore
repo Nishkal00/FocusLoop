@@ -1,0 +1,42 @@
+# Dependencies / environments
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Build output
+dist/
+dist-ssr/
+
+# Secrets
+.env
+.env.*
+!.env.example
+backend/.env
+
+# Model weights and caches (too large for git - see backend/weights/README.md)
+.huggingface_cache/
+.offload/
+downloads/
+*.safetensors
+*.gguf
+*.bin
+*.pt
+*.ckpt
+
+# Runtime output
+public/generated/
+*.log
+
+# Archives
+*.zip
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.local
+*.sw?
