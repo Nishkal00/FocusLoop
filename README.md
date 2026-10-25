@@ -6,6 +6,10 @@ FocusLoop measures a user's executive function with five short interactive cogni
 
 > Built during a summer research internship at PES University (2026). The project is no longer under active development. See [Results and status](#results-and-status) for an honest account of where it landed.
 
+
+<img width="1920" height="1080" alt="FocusLoop step view" src="https://github.com/user-attachments/assets/ac882cf5-f6df-4b11-9fc8-76a9b51fcbe8" />
+
+
 ---
 
 ## How it works
@@ -42,6 +46,12 @@ The full design, including the scoring formulas, is in [`docs/project_overview.m
 ## Sample output
 
 Clips are 512x288, 17 frames at 16 fps (about 1 second, looped in the UI). A few generated examples are in [`docs/sample-clips/`](docs/sample-clips/).
+
+
+
+
+https://github.com/user-attachments/assets/a6adaf00-4269-4b4a-bb23-5e58c9efa804
+
 
 
 ## Benchmarks (RTX 4050 Laptop, 6 GB)
